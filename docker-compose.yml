@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: myP4ssW0rd_docker_pratice
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "3333:3333"
+    volumes:
+      - ./api:/usr/src/api
+  app:
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/usr/src/app
